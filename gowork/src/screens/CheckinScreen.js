@@ -34,8 +34,6 @@ class CheckinScreen extends Component {
         };
     }
 
-    onPressAfterValidation = () => {};
-
     render() {
         return (
             <View style={styles.container}>
@@ -49,17 +47,7 @@ class CheckinScreen extends Component {
                     onBarCodeRead={(data, bounds) => {
                         if (!this.state.isQrCodeCaptured) {
                             this.setState({ isQrCodeCaptured: true });
-                            Alert.alert(
-                                "Sucesso",
-                                "Validação feita com sucesso!",
-                                [
-                                    {
-                                        text: "OK",
-                                        onPress: this.onPressAfterValidation()
-                                    }
-                                ],
-                                { cancelable: false }
-                            );
+                            this.props.navigation.navigate("ResultValidation");
                         }
                     }}
                 >

@@ -5,6 +5,7 @@ import LoginScreen from "./src/screens/LoginScreen";
 import HomeScreen from "./src/screens/HomeScreen";
 import ProfileScreen from "./src/screens/SecondScreen";
 import CheckinScreen from "./src/screens/CheckinScreen";
+import ResultValidationScreen from "./src/screens/ResultValidationScreen";
 import { Provider } from "mobx-react";
 import stores from "./src/stores";
 
@@ -23,7 +24,8 @@ const Navigator = StackNavigator(
         Login: { screen: LoginScreen },
         Home: { screen: HomeScreen },
         Profile: { screen: ProfileScreen },
-        Checkin: { screen: CheckinScreen }
+        Checkin: { screen: CheckinScreen },
+        ResultValidation: { screen: ResultValidationScreen }
     },
     {
         mode: "modal",

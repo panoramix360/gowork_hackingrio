@@ -55,9 +55,10 @@ const styles = StyleSheet.create({
 
     button: {
         width: 300,
-        height: 40,
-        bottom: 70,
+        height: 60,
+        bottom: 0,
         zIndex: 5,
+        marginTop: 8,
         backgroundColor: "#005cb2",
         borderRadius: 10,
         display: "flex",
@@ -68,6 +69,33 @@ const styles = StyleSheet.create({
     buttonText: {
         color: "white",
         fontSize: 15
+    },
+    bottomCard: {
+        flex: 1,
+        bottom: 30,
+        backgroundColor: "white",
+        elevation: 10,
+        padding: 6,
+        justifyContent: "flex-end",
+        alignItems: "center",
+        borderRadius: 8
+    },
+    cardTitle: {
+        position: "absolute",
+        top: 12,
+        fontSize: 16
+    },
+    cardTimeEstimated: {
+        fontSize: 48,
+        color: "#d18100"
+    },
+    cardTimeDetail: {
+        fontSize: 22,
+        marginBottom: 6
+    },
+    cardTimeText: {
+        flexDirection: "row",
+        alignItems: "flex-end"
     }
 });
 
@@ -100,7 +128,7 @@ class HomeScreen extends Component {
                 }
             );
             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                this.props.navigation.navigate("Checkin");
+                this.props.navigation.push("Checkin");
             } else {
                 alert("Camera permission denied");
             }
@@ -158,8 +186,6 @@ class HomeScreen extends Component {
                     <Text style={styles.nameText}>
                         Olá, {this.props.user.name}{" "}
                     </Text>
-
-                    <Text style={styles.minText}>Estimativa: 10 min</Text>
                 </View>
 
                 <MapView
@@ -185,12 +211,23 @@ class HomeScreen extends Component {
                     />
                 </MapView>
 
-                <TouchableHighlight
-                    style={styles.button}
-                    onPress={this.onPress}
-                >
-                    <Text style={styles.buttonText}> Check-In </Text>
-                </TouchableHighlight>
+                <View style={{ flex: 3 }} />
+
+                <View style={styles.bottomCard}>
+                    <Text style={styles.cardTitle}>Tempo estimado:</Text>
+
+                    <View style={styles.cardTimeText}>
+                        <Text style={styles.cardTimeEstimated}>5-10</Text>
+                        <Text style={styles.cardTimeDetail}>minutos</Text>
+                    </View>
+
+                    <TouchableHighlight
+                        style={styles.button}
+                        onPress={this.onPress}
+                    >
+                        <Text style={styles.buttonText}> Check-In </Text>
+                    </TouchableHighlight>
+                </View>
             </View>
         );
     }
