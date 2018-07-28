@@ -75,11 +75,11 @@ class HomeScreen extends Component {
     super(props);
 
     this.state = {
-      latitude: 37.78825,
-      longitude: -122.4324,
+      latitude: -22.902257,
+      longitude: -43.181235,
       position: {
-        latitude: 37.78825,
-        longitude: -122.4324,
+        latitude: -22.902257,
+        longitude: -43.181235,
       },
       error: null,
     };
@@ -151,12 +151,18 @@ class HomeScreen extends Component {
             provider={MapView.PROVIDER_GOOGLE}
           />
 
+           <Marker
+            coordinate={this.state.position}
+            image={require('../img/userPin.png')}
+            provider={MapView.PROVIDER_GOOGLE}
+          />
+
         </MapView>
 
         <TouchableHighlight
           style={styles.button}
           onPress={this.onPress}
-        >
+        > 
           <Text style={styles.buttonText}> Check-In </Text>
         </TouchableHighlight>
 

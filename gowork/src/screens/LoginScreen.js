@@ -66,8 +66,8 @@ const styles = StyleSheet.create({
     width: '60%'
   },
   image: {
-    width: 250,
-    height: 250
+    width: 160, 
+    height: 160 
   },
   container: {
     flex: 1,
