@@ -11,6 +11,8 @@ import { observer, inject } from "mobx-react";
 import MapView, { Marker } from "react-native-maps";
 import firebase from "firebase";
 import { mapStyle } from "../constraint";
+import MapViewDirections from "react-native-maps-directions";
+import { GOOGLE_API_KEY } from "../constants";
 
 const styles = StyleSheet.create({
     container: {
@@ -113,6 +115,10 @@ class HomeScreen extends Component {
                 latitude: -22.912257,
                 longitude: -43.191235
             },
+            position2: {
+                latitude: -22.922257,
+                longitude: -43.181235
+            },
             error: null
         };
     }
@@ -209,6 +215,28 @@ class HomeScreen extends Component {
                         coordinate={this.state.position}
                         image={require("../img/userPin.png")}
                         provider={MapView.PROVIDER_GOOGLE}
+                    />
+
+                    <Marker
+                        coordinate={this.state.position2}
+                        image={require("../img/userPin.png")}
+                        provider={MapView.PROVIDER_GOOGLE}
+                    />
+
+                    <MapViewDirections
+                        origin={{ ...this.props.map.busPosition }}
+                        destination={this.state.position}
+                        apikey={GOOGLE_API_KEY}
+                        strokeWidth={4}
+                        strokeColor="#000"
+                    />
+
+                    <MapViewDirections
+                        origin={this.state.position}
+                        destination={this.state.position2}
+                        apikey={GOOGLE_API_KEY}
+                        strokeWidth={4}
+                        strokeColor="#000"
                     />
                 </MapView>
 
