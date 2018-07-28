@@ -6,6 +6,7 @@ import {
     PermissionsAndroid,
     TouchableHighlight
 } from "react-native";
+import * as Animatable from "react-native-animatable";
 import { observer, inject } from "mobx-react";
 import MapView, { Marker } from "react-native-maps";
 import firebase from "firebase";
@@ -213,7 +214,10 @@ class HomeScreen extends Component {
 
                 <View style={{ flex: 3 }} />
 
-                <View style={styles.bottomCard}>
+                <Animatable.View
+                    animation="slideInUp"
+                    style={styles.bottomCard}
+                >
                     <Text style={styles.cardTitle}>Tempo estimado:</Text>
 
                     <View style={styles.cardTimeText}>
@@ -227,7 +231,7 @@ class HomeScreen extends Component {
                     >
                         <Text style={styles.buttonText}> Check-In </Text>
                     </TouchableHighlight>
-                </View>
+                </Animatable.View>
             </View>
         );
     }
