@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
 });
 
 
-@inject("user")
+@inject("user", "map")
 @observer
 class HomeScreen extends Component {
 
@@ -106,16 +106,6 @@ class HomeScreen extends Component {
   }
 
   componentDidMount = () => {
-    var config = {
-      apiKey: "AIzaSyD7MlLycXIgtDYS4TxCYlPrJqrjZAW20ek",
-      authDomain: "gowork-55018.firebaseapp.com",
-      databaseURL: "https://gowork-55018.firebaseio.com",
-      projectId: "gowork-55018",
-      storageBucket: "gowork-55018.appspot.com",
-      messagingSenderId: "613755606263"
-    };
-    firebase.initializeApp(config);
-
     // this.requestMapPermission()
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -130,6 +120,8 @@ class HomeScreen extends Component {
       (error) => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );
+
+    this.props.map.loadOnibusPosition()
   }
 
   render() {
@@ -154,7 +146,7 @@ class HomeScreen extends Component {
           }}
         >
           <Marker
-            coordinate={this.state.position}
+            coordinate={{...this.props.map.busPosition}}
             image={require('../img/bus.png')}
             provider={MapView.PROVIDER_GOOGLE}
           />

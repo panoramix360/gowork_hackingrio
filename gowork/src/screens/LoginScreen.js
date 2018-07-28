@@ -17,8 +17,17 @@ export default class LoginScreen extends Component {
   }
 
   componentDidMount = () => {
+    var config = {
+      apiKey: "AIzaSyD7MlLycXIgtDYS4TxCYlPrJqrjZAW20ek",
+      authDomain: "gowork-55018.firebaseapp.com",
+      databaseURL: "https://gowork-55018.firebaseio.com",
+      projectId: "gowork-55018",
+      storageBucket: "gowork-55018.appspot.com",
+      messagingSenderId: "613755606263"
+    };
+    firebase.initializeApp(config);
   }
-  
+
   onPressLogin = () => {
     this.props.navigation.navigate('Home')
   }
@@ -27,16 +36,16 @@ export default class LoginScreen extends Component {
     return (
       <View style={styles.container}>
         <Image
-            resizeMode="contain"
-            source={require('../img/bus.png')}
-            style={[styles.image]}
+          resizeMode="contain"
+          source={require('../img/bus.png')}
+          style={[styles.image]}
         />
 
         <TextInput placeholder='Usuário' style={styles.input} />
         <TextInput placeholder='Senha' style={styles.input} />
         <TouchableHighlight
-         style={styles.button}
-         onPress={this.onPressLogin}
+          style={styles.button}
+          onPress={this.onPressLogin}
         >
           <Text> Login </Text>
         </TouchableHighlight>
