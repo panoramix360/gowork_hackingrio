@@ -9,8 +9,6 @@ import {
     Keyboard
 } from "react-native";
 import { observer, inject } from "mobx-react";
-import firebase from "firebase";
-import { GOOGLE_API_KEY } from "../constants";
 
 @inject("user")
 @observer
@@ -22,18 +20,6 @@ export default class LoginScreen extends Component {
             cpf: ""
         };
     }
-
-    componentDidMount = () => {
-        var config = {
-            apiKey: GOOGLE_API_KEY,
-            authDomain: "gowork-55018.firebaseapp.com",
-            databaseURL: "https://gowork-55018.firebaseio.com",
-            projectId: "gowork-55018",
-            storageBucket: "gowork-55018.appspot.com",
-            messagingSenderId: "613755606263"
-        };
-        firebase.initializeApp(config);
-    };
 
     onPressLogin = async () => {
         Keyboard.dismiss();
