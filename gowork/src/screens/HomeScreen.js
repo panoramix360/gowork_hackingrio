@@ -115,10 +115,7 @@ class HomeScreen extends Component {
                 latitude: -22.912257,
                 longitude: -43.191235
             },
-            position2: {
-                latitude: -22.922257,
-                longitude: -43.181235
-            },
+            estimatedTime: "0-0",
             error: null
         };
     }
@@ -186,6 +183,13 @@ class HomeScreen extends Component {
         this.requestCameraPermission();
     };
 
+    onReady = result => {
+        let estimatedTime = Math.round(result.duration);
+        this.setState({
+            estimatedTime: `${estimatedTime - 2}-${estimatedTime}`
+        });
+    };
+
     render() {
         return (
             <View style={styles.container}>
@@ -245,23 +249,24 @@ class HomeScreen extends Component {
                         strokeColor="#000"
                     />
 
-                    {/*
-
-                    <MapViewDirections
-                        origin={{ ...this.props.map.busPosition }}
-                        destination={this.state.position}
-                        apikey={GOOGLE_API_KEY}
-                        strokeWidth={4}
-                        strokeColor="#000"
+                    <Marker
+                        coordinate={{
+                            latitude: this.props.user.posicao.latitude,
+                            longitude: this.props.user.posicao.longitude
+                        }}
+                        image={require("../img/userPin.png")}
+                        provider={MapView.PROVIDER_GOOGLE}
                     />
 
                     <MapViewDirections
-                        origin={this.state.position}
-                        destination={this.state.position2}
+                        origin={{ ...this.props.map.busPosition }}
+                        destination={{
+                            latitude: this.props.user.posicao.latitude,
+                            longitude: this.props.user.posicao.longitude
+                        }}
                         apikey={GOOGLE_API_KEY}
-                        strokeWidth={4}
-                        strokeColor="#000"
-                    /> */}
+                        onReady={this.onReady}
+                    />
                 </MapView>
 
                 <View style={{ flex: 3 }} />
@@ -269,11 +274,14 @@ class HomeScreen extends Component {
                 <Animatable.View
                     animation="slideInUp"
                     style={styles.bottomCard}
+                    useNativeDriver={true}
                 >
                     <Text style={styles.cardTitle}>Tempo estimado:</Text>
 
                     <View style={styles.cardTimeText}>
-                        <Text style={styles.cardTimeEstimated}>5-10</Text>
+                        <Text style={styles.cardTimeEstimated}>
+                            {this.state.estimatedTime}
+                        </Text>
                         <Text style={styles.cardTimeDetail}>minutos</Text>
                     </View>
 

@@ -7,6 +7,7 @@ export default class UserStore {
     @observable empresa = "";
     @observable name = "";
     @observable cpf = "";
+    @observable posicao = null;
     @observable error = null;
 
     saveOnStorage() {
@@ -16,7 +17,8 @@ export default class UserStore {
                 id: this.id,
                 empresa: this.empresa,
                 name: this.name,
-                cpf: this.cpf
+                cpf: this.cpf,
+                posicao: this.posicao
             })
         );
     }
@@ -33,16 +35,19 @@ export default class UserStore {
         this.empresa = "";
         this.name = "";
         this.cpf = "";
+        this.posicao = null;
     }
 
     @action
     async loadDataOnStorage() {
+        debugger;
         const data = await JSON.parse(AsyncStorage.getItem("user"));
         if (data) {
             this.id = data.id;
             this.empresa = data.empresa;
             this.name = data.name;
             this.cpf = data.cpf;
+            this.posicao = data.posicao;
         }
     }
 
@@ -55,6 +60,10 @@ export default class UserStore {
                 this.empresa = response.empresa;
                 this.name = response.nome;
                 this.cpf = response.cpf;
+                this.posicao = {
+                    latitude: response.latitude,
+                    longitude: response.longitude
+                };
             },
             error => {
                 this.error = error;
