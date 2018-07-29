@@ -19,7 +19,7 @@ export default class LoginScreen extends Component {
         super(props);
 
         this.state = {
-            login: null
+            cpf: null
         };
     }
 
@@ -36,8 +36,16 @@ export default class LoginScreen extends Component {
     };
 
     onPressLogin = () => {
-        Keyboard.dismiss()
-        this.props.navigation.navigate("Home");
+        Keyboard.dismiss();
+        if (cpf != null && cpf != "") {
+            this.props.user.authenticate(cpf);
+        } else {
+            alert("Preencha o CPF!");
+        }
+    };
+
+    onChangeCpf = e => {
+        this.setState({ cpf: e.target.value });
     };
 
     render() {
@@ -49,8 +57,19 @@ export default class LoginScreen extends Component {
                     style={[styles.image]}
                 />
 
-                <TextInput placeholder="Usuário" style={styles.input} />
-                <TextInput placeholder="Senha" style={styles.input} />
+                <TextInput
+                    placeholder="CPF"
+                    style={styles.input}
+                    onChange={this.onChangeCpf}
+                    keyboardType="numeric"
+                />
+
+                <TextInput
+                    placeholder="Senha"
+                    secureTextEntry={true}
+                    style={styles.input}
+                />
+
                 <TouchableHighlight
                     style={styles.button}
                     onPress={this.onPressLogin}
