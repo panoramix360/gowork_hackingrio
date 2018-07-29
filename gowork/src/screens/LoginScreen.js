@@ -4,7 +4,7 @@ import {
     View,
     Text,
     TextInput,
-    TouchableHighlight,
+    TouchableOpacity,
     StyleSheet,
     Keyboard
 } from "react-native";
@@ -62,12 +62,12 @@ export default class LoginScreen extends Component {
                     style={styles.input}
                 />
 
-                <TouchableHighlight
+                <TouchableOpacity
                     style={styles.button}
                     onPress={this.onPressLogin}
                 >
-                    <Text> Login </Text>
-                </TouchableHighlight>
+                    <Text style={styles.buttonText}> Login </Text>
+                </TouchableOpacity>
             </View>
         );
     }
@@ -75,7 +75,8 @@ export default class LoginScreen extends Component {
 
 const styles = StyleSheet.create({
     input: {
-        width: "70%"
+        width: "70%",
+        fontSize: 18
     },
     button: {
         alignItems: "center",
@@ -83,6 +84,9 @@ const styles = StyleSheet.create({
         marginTop: 50,
         padding: 10,
         width: "60%"
+    },
+    buttonText: {
+        fontSize: 18
     },
     image: {
         width: 160,
