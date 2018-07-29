@@ -4,7 +4,7 @@ import {
     Text,
     StyleSheet,
     PermissionsAndroid,
-    TouchableHighlight
+    TouchableHighlight,
 } from "react-native";
 import * as Animatable from "react-native-animatable";
 import { observer, inject } from "mobx-react";

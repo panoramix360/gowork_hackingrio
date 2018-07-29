@@ -5,7 +5,8 @@ import {
     Text,
     TextInput,
     TouchableHighlight,
-    StyleSheet
+    StyleSheet,
+    Keyboard
 } from "react-native";
 import { observer, inject } from "mobx-react";
 import firebase from "firebase";
@@ -35,6 +36,7 @@ export default class LoginScreen extends Component {
     };
 
     onPressLogin = () => {
+        Keyboard.dismiss()
         this.props.navigation.navigate("Home");
     };
 
