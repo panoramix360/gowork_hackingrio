@@ -1,49 +1,62 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
-
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
-
-type Props = {};
-export default class App extends Component<Props> {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
-      </View>
-    );
-  }
-}
+import React, { Component } from "react";
+import { StyleSheet, View, Text, SafeAreaView } from "react-native";
+import { StackNavigator } from "react-navigation";
+import LoginScreen from "./src/screens/LoginScreen";
+import HomeScreen from "./src/screens/HomeScreen";
+import CheckinScreen from "./src/screens/CheckinScreen";
+import ResultValidationScreen from "./src/screens/ResultValidationScreen";
+import { Provider } from "mobx-react";
+import stores from "./src/stores";
+import firebase from "firebase";
+import { GOOGLE_API_KEY } from "./src/constants";
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+    safeArea: {
+        flex: 1,
+        backgroundColor: "#272C36"
+    },
+    navigator: {
+        backgroundColor: "#272C36"
+    }
 });
+
+const Navigator = StackNavigator(
+    {
+        Login: { screen: LoginScreen },
+        Home: { screen: HomeScreen },
+        Checkin: { screen: CheckinScreen },
+        ResultValidation: { screen: ResultValidationScreen }
+    },
+    {
+        mode: "modal",
+        headerMode: "none"
+    }
+);
+
+export default class App extends Component {
+    componentDidMount() {
+        if (!firebase.apps.length) {
+            var config = {
+                apiKey: GOOGLE_API_KEY,
+                authDomain: "gowork-55018.firebaseapp.com",
+                databaseURL: "https://gowork-55018.firebaseio.com",
+                projectId: "gowork-55018",
+                storageBucket: "gowork-55018.appspot.com",
+                messagingSenderId: "613755606263"
+            };
+            firebase.initializeApp(config);
+
+            console.disableYellowBox = true;
+        }
+    }
+
+    render() {
+        return (
+            <Provider {...stores}>
+                <SafeAreaView style={styles.safeArea}>
+                    <Navigator style={styles.navigator} />
+                </SafeAreaView>
+            </Provider>
+        );
+    }
+}
