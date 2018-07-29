@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
     },
     checkIcon: {
         flex: 2,
+        justifyContent: "center",
         alignItems: "center"
     },
     image: {
@@ -21,7 +22,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     text: {
-        fontSize: 24,
+        fontSize: 20,
         fontWeight: "bold"
     },
     button: {

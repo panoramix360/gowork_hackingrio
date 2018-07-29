@@ -45,6 +45,8 @@ export default class App extends Component {
                 messagingSenderId: "613755606263"
             };
             firebase.initializeApp(config);
+
+            console.disableYellowBox = true;
         }
     }
 

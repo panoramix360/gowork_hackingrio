@@ -40,7 +40,6 @@ export default class UserStore {
 
     @action
     async loadDataOnStorage() {
-        debugger;
         const data = await JSON.parse(AsyncStorage.getItem("user"));
         if (data) {
             this.id = data.id;

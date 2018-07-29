@@ -10,7 +10,6 @@ export default class MapStore {
 
     @observable busPoints = [];
     @observable waypoints = [];
-    @observable empresa = null;
 
     @action
     async loadOnibusPosition() {
@@ -25,14 +24,38 @@ export default class MapStore {
     @action
     loadRoutes(idFuncionario) {
         MapService.loadRoutes(idFuncionario).then(response => {
-            console.log(response.pontoOnibus);
             this.busPoints = response.pontoOnibus;
-            this.waypoints = this.busPoints.map(obj => {
+
+            console.log(response.pontoOnibus);
+
+            let newWaypoints = [];
+            for (var i in response.pontoOnibus) {
+                let waypoint = this.busPoints[i];
+                if (newWaypoints.length == 0) {
+                    newWaypoints.push(waypoint);
+                } else {
+                    let isAlreadyExists = false;
+                    for (var j in newWaypoints) {
+                        let waypointAdded = newWaypoints[j];
+                        if (
+                            waypoint.latitude == waypointAdded.latitude &&
+                            waypoint.longitude == waypointAdded.longitude
+                        ) {
+                            isAlreadyExists = true;
+                        }
+                    }
+
+                    if (!isAlreadyExists) {
+                        newWaypoints.push(waypoint);
+                    }
+                }
+            }
+
+            this.waypoints = newWaypoints.map(obj => {
                 return `${obj.latitude},${obj.longitude}`;
             });
 
-            this.waypoints = this.waypoints.slice(0, 10);
-            //this.empresa = response.empresa;
+            console.log(waypoints);
         });
     }
 }

@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import * as Animatable from "react-native-animatable";
 import { observer, inject } from "mobx-react";
+import { toJS } from "mobx";
 import MapView, { Marker } from "react-native-maps";
 import firebase from "firebase";
 import { mapStyle } from "../constraint";
@@ -118,6 +119,9 @@ class HomeScreen extends Component {
             estimatedTime: "0-0",
             error: null
         };
+
+        this.props.map.busPoints = [];
+        this.props.map.waypoints = [];
     }
 
     requestCameraPermission = async () => {
@@ -209,9 +213,10 @@ class HomeScreen extends Component {
                         longitudeDelta: 0.0421
                     }}
                 >
-                    {this.props.map.busPoints.map(obj => {
+                    {this.props.map.busPoints.map((obj, index) => {
                         return (
                             <Marker
+                                key={index}
                                 coordinate={{
                                     latitude: obj.latitude,
                                     longitude: obj.longitude
@@ -239,23 +244,15 @@ class HomeScreen extends Component {
 
                     <MapViewDirections
                         origin={{ ...this.props.map.busPosition }}
-                        destination={{
-                            latitude: -22.906548,
-                            longitude: -43.174177
-                        }}
-                        waypoints={this.props.map.waypoints}
+                        destination={
+                            this.props.map.waypoints[
+                                this.props.map.waypoints.length - 1
+                            ]
+                        }
+                        waypoints={toJS(this.props.map.waypoints)}
                         apikey={GOOGLE_API_KEY}
                         strokeWidth={4}
                         strokeColor="#000"
-                    />
-
-                    <Marker
-                        coordinate={{
-                            latitude: this.props.user.posicao.latitude,
-                            longitude: this.props.user.posicao.longitude
-                        }}
-                        image={require("../img/userPin.png")}
-                        provider={MapView.PROVIDER_GOOGLE}
                     />
 
                     <MapViewDirections
@@ -264,6 +261,7 @@ class HomeScreen extends Component {
                             latitude: this.props.user.posicao.latitude,
                             longitude: this.props.user.posicao.longitude
                         }}
+                        strokeColor="transparent"
                         apikey={GOOGLE_API_KEY}
                         onReady={this.onReady}
                     />
