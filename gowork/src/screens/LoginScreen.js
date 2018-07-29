@@ -19,7 +19,7 @@ export default class LoginScreen extends Component {
         super(props);
 
         this.state = {
-            cpf: null
+            cpf: "12963071744"
         };
     }
 
@@ -35,10 +35,15 @@ export default class LoginScreen extends Component {
         firebase.initializeApp(config);
     };
 
-    onPressLogin = () => {
+    onPressLogin = async () => {
         Keyboard.dismiss();
-        if (cpf != null && cpf != "") {
-            this.props.user.authenticate(cpf);
+        if (this.state.cpf != null && this.state.cpf != "") {
+            await this.props.user.authenticate(this.state.cpf);
+            if (this.props.user.id != null && this.props.user.id != "") {
+                this.props.navigation.navigate("Home");
+            } else {
+                alert("Usuário não encontrado.");
+            }
         } else {
             alert("Preencha o CPF!");
         }
@@ -62,6 +67,7 @@ export default class LoginScreen extends Component {
                     style={styles.input}
                     onChange={this.onChangeCpf}
                     keyboardType="numeric"
+                    value={this.state.cpf}
                 />
 
                 <TextInput

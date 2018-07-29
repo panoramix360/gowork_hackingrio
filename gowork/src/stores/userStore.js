@@ -1,4 +1,6 @@
 import { action, observable, computed } from "mobx";
+import UserService from "../services/userService";
+import { AsyncStorage } from "react-native";
 
 export default class UserStore {
     @observable id = "";
@@ -8,7 +10,7 @@ export default class UserStore {
     @observable error = null;
 
     saveOnStorage() {
-        localStorage.setItem(
+        AsyncStorage.setItem(
             "user",
             JSON.stringify({
                 id: this.id,
@@ -26,7 +28,7 @@ export default class UserStore {
 
     @action
     clearUser() {
-        localStorage.removeItem("user");
+        AsyncStorage.removeItem("user");
         this.id = "";
         this.idEmpresa = "";
         this.name = "";
@@ -35,7 +37,7 @@ export default class UserStore {
 
     @action
     async loadDataOnStorage() {
-        const data = await JSON.parse(localStorage.getItem("user"));
+        const data = await JSON.parse(AsyncStorage.getItem("user"));
         if (data) {
             this.id = data.id;
             this.idEmpresa = data.idEmpresa;
@@ -47,7 +49,7 @@ export default class UserStore {
     @action
     async authenticate(cpf) {
         await this.clearUser();
-        await UserService.authenticate(this.cpf).then(
+        await UserService.authenticate(cpf).then(
             response => {
                 this.id = response.idFuncionario;
                 this.idEmpresa = response.idEmpresa;
