@@ -17,7 +17,7 @@ export default class LoginScreen extends Component {
         super(props);
 
         this.state = {
-            cpf: ""
+            cpf: "12963071744"
         };
     }
 

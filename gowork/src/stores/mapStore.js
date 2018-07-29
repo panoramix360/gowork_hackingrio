@@ -9,6 +9,7 @@ export default class MapStore {
     };
 
     @observable busPoints = [];
+    @observable funcionarios = [];
     @observable waypoints = [];
 
     @action
@@ -31,6 +32,7 @@ export default class MapStore {
             let newWaypoints = [];
             for (var i in response.pontoOnibus) {
                 let waypoint = this.busPoints[i];
+                this.funcionarios.push(waypoint.funcionario);
                 if (newWaypoints.length == 0) {
                     newWaypoints.push(waypoint);
                 } else {
@@ -55,7 +57,8 @@ export default class MapStore {
                 return `${obj.latitude},${obj.longitude}`;
             });
 
-            console.log(waypoints);
+            console.log(this.waypoints);
+            console.log(this.funcionarios);
         });
     }
 }

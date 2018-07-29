@@ -4,7 +4,9 @@ import {
     Text,
     StyleSheet,
     PermissionsAndroid,
-    TouchableHighlight
+    TouchableOpacity,
+    Button,
+    ListView
 } from "react-native";
 import * as Animatable from "react-native-animatable";
 import { observer, inject } from "mobx-react";
@@ -14,6 +16,7 @@ import firebase from "firebase";
 import { mapStyle } from "../constraint";
 import MapViewDirections from "react-native-maps-directions";
 import { GOOGLE_API_KEY } from "../constants";
+import Modal from "react-native-modalbox";
 
 const styles = StyleSheet.create({
     container: {
@@ -100,6 +103,17 @@ const styles = StyleSheet.create({
     cardTimeText: {
         flexDirection: "row",
         alignItems: "flex-end"
+    },
+    modal: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        padding: 8
+    },
+    modalTitle: {
+        fontSize: 24,
+        marginBottom: 16,
+        fontWeight: "bold"
     }
 });
 
@@ -108,6 +122,10 @@ const styles = StyleSheet.create({
 class HomeScreen extends Component {
     constructor(props) {
         super(props);
+
+        this.ds = new ListView.DataSource({
+            rowHasChanged: (r1, r2) => r1 !== r2
+        });
 
         this.state = {
             latitude: -22.912257,
@@ -187,11 +205,31 @@ class HomeScreen extends Component {
         this.requestCameraPermission();
     };
 
+    onPressModalClose = () => {
+        this.refs.modal1.close();
+    };
+
     onReady = result => {
         let estimatedTime = Math.round(result.duration);
         this.setState({
             estimatedTime: `${estimatedTime - 2}-${estimatedTime}`
         });
+    };
+
+    onPressBusPosition = () => {
+        this.refs.modal1.open();
+    };
+
+    onRenderRow = rowData => {
+        return (
+            <Text
+                style={{
+                    fontSize: 18
+                }}
+            >
+                {rowData.nome}
+            </Text>
+        );
     };
 
     render() {
@@ -231,6 +269,7 @@ class HomeScreen extends Component {
                         coordinate={{ ...this.props.map.busPosition }}
                         image={require("../img/bus.png")}
                         provider={MapView.PROVIDER_GOOGLE}
+                        onPress={this.onPressBusPosition}
                     />
 
                     <Marker
@@ -283,13 +322,40 @@ class HomeScreen extends Component {
                         <Text style={styles.cardTimeDetail}>minutos</Text>
                     </View>
 
-                    <TouchableHighlight
+                    <TouchableOpacity
                         style={styles.button}
                         onPress={this.onPress}
                     >
                         <Text style={styles.buttonText}> Check-In </Text>
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                 </Animatable.View>
+
+                <Modal
+                    style={[styles.modal]}
+                    ref={"modal1"}
+                    swipeToClose={false}
+                    coverScreen={true}
+                >
+                    <Text style={styles.modalTitle}>Passageiros</Text>
+
+                    <ListView
+                        dataSource={this.ds.cloneWithRows(
+                            toJS(this.props.map.funcionarios)
+                        )}
+                        renderRow={this.onRenderRow}
+                        contentContainerStyle={{
+                            flex: 1,
+                            justifyContent: "center"
+                        }}
+                    />
+
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={this.onPressModalClose}
+                    >
+                        <Text style={styles.buttonText}> Fechar </Text>
+                    </TouchableOpacity>
+                </Modal>
             </View>
         );
     }
