@@ -4,7 +4,7 @@ import { AsyncStorage } from "react-native";
 
 export default class UserStore {
     @observable id = "";
-    @observable idEmpresa = "";
+    @observable empresa = "";
     @observable name = "";
     @observable cpf = "";
     @observable error = null;
@@ -14,7 +14,7 @@ export default class UserStore {
             "user",
             JSON.stringify({
                 id: this.id,
-                idEmpresa: this.idEmpresa,
+                empresa: this.empresa,
                 name: this.name,
                 cpf: this.cpf
             })
@@ -30,7 +30,7 @@ export default class UserStore {
     clearUser() {
         AsyncStorage.removeItem("user");
         this.id = "";
-        this.idEmpresa = "";
+        this.empresa = "";
         this.name = "";
         this.cpf = "";
     }
@@ -40,7 +40,7 @@ export default class UserStore {
         const data = await JSON.parse(AsyncStorage.getItem("user"));
         if (data) {
             this.id = data.id;
-            this.idEmpresa = data.idEmpresa;
+            this.empresa = data.empresa;
             this.name = data.name;
             this.cpf = data.cpf;
         }
@@ -52,7 +52,7 @@ export default class UserStore {
         await UserService.authenticate(cpf).then(
             response => {
                 this.id = response.idFuncionario;
-                this.idEmpresa = response.idEmpresa;
+                this.empresa = response.empresa;
                 this.name = response.nome;
                 this.cpf = response.cpf;
             },

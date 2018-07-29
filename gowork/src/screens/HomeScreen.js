@@ -4,7 +4,7 @@ import {
     Text,
     StyleSheet,
     PermissionsAndroid,
-    TouchableHighlight,
+    TouchableHighlight
 } from "react-native";
 import * as Animatable from "react-native-animatable";
 import { observer, inject } from "mobx-react";
@@ -167,7 +167,6 @@ class HomeScreen extends Component {
     componentDidMount = () => {
         navigator.geolocation.getCurrentPosition(
             position => {
-                console.log(position);
                 this.setState({
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude,
@@ -180,6 +179,7 @@ class HomeScreen extends Component {
         );
 
         this.props.map.loadOnibusPosition();
+        this.props.map.loadRoutes(this.props.user.id);
     };
 
     onPress = () => {
@@ -205,6 +205,19 @@ class HomeScreen extends Component {
                         longitudeDelta: 0.0421
                     }}
                 >
+                    {this.props.map.busPoints.map(obj => {
+                        return (
+                            <Marker
+                                coordinate={{
+                                    latitude: obj.latitude,
+                                    longitude: obj.longitude
+                                }}
+                                image={require("../img/pin.png")}
+                                provider={MapView.PROVIDER_GOOGLE}
+                            />
+                        );
+                    })}
+
                     <Marker
                         coordinate={{ ...this.props.map.busPosition }}
                         image={require("../img/bus.png")}
@@ -212,16 +225,27 @@ class HomeScreen extends Component {
                     />
 
                     <Marker
-                        coordinate={this.state.position}
+                        coordinate={{
+                            latitude: -22.906548,
+                            longitude: -43.174177
+                        }}
                         image={require("../img/userPin.png")}
                         provider={MapView.PROVIDER_GOOGLE}
                     />
 
-                    <Marker
-                        coordinate={this.state.position2}
-                        image={require("../img/userPin.png")}
-                        provider={MapView.PROVIDER_GOOGLE}
+                    <MapViewDirections
+                        origin={{ ...this.props.map.busPosition }}
+                        destination={{
+                            latitude: -22.906548,
+                            longitude: -43.174177
+                        }}
+                        waypoints={this.props.map.waypoints}
+                        apikey={GOOGLE_API_KEY}
+                        strokeWidth={4}
+                        strokeColor="#000"
                     />
+
+                    {/*
 
                     <MapViewDirections
                         origin={{ ...this.props.map.busPosition }}
@@ -237,7 +261,7 @@ class HomeScreen extends Component {
                         apikey={GOOGLE_API_KEY}
                         strokeWidth={4}
                         strokeColor="#000"
-                    />
+                    /> */}
                 </MapView>
 
                 <View style={{ flex: 3 }} />

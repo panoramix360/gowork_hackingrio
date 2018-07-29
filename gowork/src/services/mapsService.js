@@ -9,8 +9,9 @@ class MapService {
     };
 
     loadRoutes = idFuncionario => {
+        console.log(idFuncionario);
         return axios
-            .post(`${API_URL}/rota/funcionario/`, { cpf })
+            .get(`${API_URL}/rota/funcionario/${idFuncionario}`)
             .then(response => {
                 return response.data;
             })

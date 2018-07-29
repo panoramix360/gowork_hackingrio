@@ -19,7 +19,7 @@ export default class LoginScreen extends Component {
         super(props);
 
         this.state = {
-            cpf: "12963071744"
+            cpf: ""
         };
     }
 
@@ -49,8 +49,8 @@ export default class LoginScreen extends Component {
         }
     };
 
-    onChangeCpf = e => {
-        this.setState({ cpf: e.target.value });
+    onChangeCpf = partialCpf => {
+        this.setState({ cpf: partialCpf });
     };
 
     render() {
@@ -65,7 +65,7 @@ export default class LoginScreen extends Component {
                 <TextInput
                     placeholder="CPF"
                     style={styles.input}
-                    onChange={this.onChangeCpf}
+                    onChangeText={this.onChangeCpf}
                     keyboardType="numeric"
                     value={this.state.cpf}
                 />

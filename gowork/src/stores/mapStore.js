@@ -8,6 +8,10 @@ export default class MapStore {
         longitude: -122.4324
     };
 
+    @observable busPoints = [];
+    @observable waypoints = [];
+    @observable empresa = null;
+
     @action
     async loadOnibusPosition() {
         let busRef = MapService.getOnibusProsition("onibus1");
@@ -19,7 +23,16 @@ export default class MapStore {
     }
 
     @action
-    async loadRoutes(idFuncionario) {
-        MapService.loadRoutes(idFuncionario).then(() => {});
+    loadRoutes(idFuncionario) {
+        MapService.loadRoutes(idFuncionario).then(response => {
+            console.log(response.pontoOnibus);
+            this.busPoints = response.pontoOnibus;
+            this.waypoints = this.busPoints.map(obj => {
+                return `${obj.latitude},${obj.longitude}`;
+            });
+
+            this.waypoints = this.waypoints.slice(0, 10);
+            //this.empresa = response.empresa;
+        });
     }
 }
