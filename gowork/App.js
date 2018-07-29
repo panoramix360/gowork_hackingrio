@@ -3,7 +3,6 @@ import { StyleSheet, View, Text, SafeAreaView } from "react-native";
 import { StackNavigator } from "react-navigation";
 import LoginScreen from "./src/screens/LoginScreen";
 import HomeScreen from "./src/screens/HomeScreen";
-import ProfileScreen from "./src/screens/SecondScreen";
 import CheckinScreen from "./src/screens/CheckinScreen";
 import ResultValidationScreen from "./src/screens/ResultValidationScreen";
 import { Provider } from "mobx-react";
@@ -23,7 +22,6 @@ const Navigator = StackNavigator(
     {
         Login: { screen: LoginScreen },
         Home: { screen: HomeScreen },
-        Profile: { screen: ProfileScreen },
         Checkin: { screen: CheckinScreen },
         ResultValidation: { screen: ResultValidationScreen }
     },
