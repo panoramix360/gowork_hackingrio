@@ -1,64 +1,65 @@
 import { action, observable, computed } from "mobx";
+import UserService from "../services/userService";
+import { AsyncStorage } from "react-native";
 
 export default class UserStore {
-    @observable email = "teste@test.com";
-    @observable userId = "";
-    @observable role = "";
-    @observable name = "Daniel";
-    @observable password = "";
+    @observable id = "";
+    @observable idEmpresa = "";
+    @observable name = "";
+    @observable cpf = "";
     @observable error = null;
 
     saveOnStorage() {
-        localStorage.setItem(
+        AsyncStorage.setItem(
             "user",
             JSON.stringify({
-                email: this.email,
-                userId: this.userId,
+                id: this.id,
+                idEmpresa: this.idEmpresa,
                 name: this.name,
-                role: this.role
+                cpf: this.cpf
             })
         );
     }
 
     @computed
     get isAuthenticated() {
-        console.log(this.userId !== "");
-        return this.userId !== "";
+        return this.id !== "";
     }
 
     @action
     clearUser() {
-        localStorage.removeItem("user");
-        this.userId = "";
+        AsyncStorage.removeItem("user");
+        this.id = "";
+        this.idEmpresa = "";
         this.name = "";
-        this.role = "";
+        this.cpf = "";
     }
 
     @action
     async loadDataOnStorage() {
-        const data = await JSON.parse(localStorage.getItem("user"));
+        const data = await JSON.parse(AsyncStorage.getItem("user"));
         if (data) {
-            this.email = data.email;
-            this.userId = data.userId;
+            this.id = data.id;
+            this.idEmpresa = data.idEmpresa;
             this.name = data.name;
-            this.role = data.role;
+            this.cpf = data.cpf;
         }
     }
 
-    // @action
-    // async authenticate() {
-    //     await this.clearUser();
-    //     await UserService.authenticate(this.email, this.password).then(
-    //         response => {
-    //             this.email = response.email;
-    //             this.userId = response._id;
-    //             this.name = response.name;
-    //             this.role = response.role;
-    //         },
-    //         error => {
-    //             this.error = error;
-    //         }
-    //     );
-    //     await this.saveOnStorage();
-    // }
+    @action
+    async authenticate(cpf) {
+        await this.clearUser();
+        await UserService.authenticate(cpf).then(
+            response => {
+                this.id = response.idFuncionario;
+                this.idEmpresa = response.idEmpresa;
+                this.name = response.nome;
+                this.cpf = response.cpf;
+            },
+            error => {
+                this.error = error;
+            }
+        );
+        await this.saveOnStorage();
+    }
 }
