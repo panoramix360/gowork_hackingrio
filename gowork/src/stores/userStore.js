@@ -1,18 +1,18 @@
-import { action, observable, computed } from "mobx";
-import UserService from "../services/userService";
-import { AsyncStorage } from "react-native";
+import { action, observable, computed } from 'mobx';
+import UserService from '../services/userService';
+import { AsyncStorage } from 'react-native';
 
 export default class UserStore {
-    @observable id = "";
-    @observable empresa = "";
-    @observable name = "";
-    @observable cpf = "";
+    @observable id = '';
+    @observable empresa = '';
+    @observable name = 'Daniel';
+    @observable cpf = '';
     @observable posicao = null;
     @observable error = null;
 
     saveOnStorage() {
         AsyncStorage.setItem(
-            "user",
+            'user',
             JSON.stringify({
                 id: this.id,
                 empresa: this.empresa,
@@ -25,22 +25,22 @@ export default class UserStore {
 
     @computed
     get isAuthenticated() {
-        return this.id !== "";
+        return this.id !== '';
     }
 
     @action
     clearUser() {
-        AsyncStorage.removeItem("user");
-        this.id = "";
-        this.empresa = "";
-        this.name = "";
-        this.cpf = "";
+        AsyncStorage.removeItem('user');
+        this.id = '';
+        this.empresa = '';
+        this.name = '';
+        this.cpf = '';
         this.posicao = null;
     }
 
     @action
     async loadDataOnStorage() {
-        const data = await JSON.parse(AsyncStorage.getItem("user"));
+        const data = await JSON.parse(AsyncStorage.getItem('user'));
         if (data) {
             this.id = data.id;
             this.empresa = data.empresa;

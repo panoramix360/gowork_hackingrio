@@ -1,22 +1,22 @@
-import React, { Component } from "react";
-import { StyleSheet, View, Text, SafeAreaView } from "react-native";
-import { StackNavigator } from "react-navigation";
-import LoginScreen from "./src/screens/LoginScreen";
-import HomeScreen from "./src/screens/HomeScreen";
-import CheckinScreen from "./src/screens/CheckinScreen";
-import ResultValidationScreen from "./src/screens/ResultValidationScreen";
-import { Provider } from "mobx-react";
-import stores from "./src/stores";
-import firebase from "firebase";
-import { GOOGLE_API_KEY } from "./src/constants";
+import React, { Component } from 'react';
+import { StyleSheet, View, Text, SafeAreaView } from 'react-native';
+import { StackNavigator } from 'react-navigation';
+import LoginScreen from './src/screens/LoginScreen';
+import HomeScreen from './src/screens/HomeScreen';
+import CheckinScreen from './src/screens/CheckinScreen';
+import ResultValidationScreen from './src/screens/ResultValidationScreen';
+import { Provider } from 'mobx-react';
+import stores from './src/stores';
+import firebase from 'firebase';
+import { GOOGLE_API_KEY } from './src/constants';
 
 const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
-        backgroundColor: "#272C36"
+        backgroundColor: '#272C36'
     },
     navigator: {
-        backgroundColor: "#272C36"
+        backgroundColor: '#272C36'
     }
 });
 
@@ -28,8 +28,8 @@ const Navigator = StackNavigator(
         ResultValidation: { screen: ResultValidationScreen }
     },
     {
-        mode: "modal",
-        headerMode: "none"
+        mode: 'modal',
+        headerMode: 'none'
     }
 );
 
@@ -38,11 +38,11 @@ export default class App extends Component {
         if (!firebase.apps.length) {
             var config = {
                 apiKey: GOOGLE_API_KEY,
-                authDomain: "gowork-55018.firebaseapp.com",
-                databaseURL: "https://gowork-55018.firebaseio.com",
-                projectId: "gowork-55018",
-                storageBucket: "gowork-55018.appspot.com",
-                messagingSenderId: "613755606263"
+                authDomain: 'gowork-55018.firebaseapp.com',
+                databaseURL: 'https://gowork-55018.firebaseio.com',
+                projectId: 'gowork-55018',
+                storageBucket: 'gowork-55018.appspot.com',
+                messagingSenderId: '613755606263'
             };
             firebase.initializeApp(config);
 
